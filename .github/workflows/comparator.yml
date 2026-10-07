@@ -1,0 +1,46 @@
+name: Comparator
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: comparator-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  comparator:
+    name: Check Challenges against Solutions
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    steps:
+      - name: Free disk space
+        # The library build needs about 25 GB (Mathlib cache and project build); the runner image
+        # ships with far less free space, so remove preinstalled toolchains this project does not use.
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL \
+            /usr/local/share/boost /usr/local/.ghcup /usr/share/swift
+          sudo docker image prune --all --force >/dev/null || true
+          df -h /
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Check Lean source requirements
+        run: python3 scripts/check-lean-sources.py
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          build: false
+      - name: Install bubblewrap for lake comparator's sandbox
+        # Ubuntu 24.04 restricts unprivileged user namespaces through AppArmor,
+        # which bwrap needs; the runner is disposable.
+        run: |
+          sudo apt-get update -qq >/dev/null
+          sudo apt-get install -y -qq bubblewrap >/dev/null
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+      - name: Run the toolchain's lake comparator
+        run: ./scripts/verify-comparator.sh

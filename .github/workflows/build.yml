@@ -1,0 +1,121 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build and check axioms
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    steps:
+      - name: Free disk space
+        # The library build needs about 25 GB (Mathlib cache and project build); the runner image
+        # ships with far less free space, so remove preinstalled toolchains this project does not use.
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL \
+            /usr/local/share/boost /usr/local/.ghcup /usr/share/swift
+          sudo docker image prune --all --force >/dev/null || true
+          df -h /
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Check Lean source requirements
+        run: python3 scripts/check-lean-sources.py
+      - name: Check for unfinished proofs outside the Challenges
+        run: |
+          if grep -rnwE 'sorry|admit|axiom' --include='*.lean' Hormander RothschildStein Hormander.lean RothschildStein.lean comparators/*/Solution.lean \
+              | grep -vE '^[^:]+:[0-9]+:\s*(--|/-|.*-/\s*$)'; then
+            echo "unexpected sorry/admit/axiom" >&2; exit 1
+          fi
+      - uses: leanprover/lean-action@38fbc41a8c28c4cbaec22d7f7de508ec2e7c0dd9
+        with:
+          build: true
+      - name: Print and check axioms of the main theorems
+        run: |
+          cat > "$RUNNER_TEMP/Axioms.lean" <<'LEAN'
+          import Hormander.Interface
+          import Hormander.Statements.ExistsContDiffOfMemSobolev
+          import Hormander.Statements.LocalRegularity
+          import Hormander.Statements.MemSobolevOfIntegrable
+          import Hormander.Statements.SubellipticEstimate
+          import RothschildStein.Definitions.HomogeneousGroup.driftFields_contDiff
+          import RothschildStein.Definitions.HomogeneousGroup.horizontalFields_contDiff
+          import RothschildStein.Statements.chow_rashevskii
+          import RothschildStein.Statements.exists_ball_box_compact_family
+          import RothschildStein.Statements.exists_ball_volume_doubling_compact_family
+          import RothschildStein.Statements.exists_bch_lie_series
+          import RothschildStein.Statements.exists_distance_comparison_compact_family
+          import RothschildStein.Statements.exists_lift_approximation_drift
+          import RothschildStein.Statements.exists_lift_approximation_noDrift
+          import RothschildStein.Statements.rs2a_drift
+          import RothschildStein.Statements.rs2a_noDrift
+          import RothschildStein.Statements.rs2b_drift
+          import RothschildStein.Statements.rs2b_noDrift
+          import RothschildStein.Statements.rs3_drift_holder
+          import RothschildStein.Statements.rs3_drift_sobolev
+          import RothschildStein.Statements.rs3_no_drift_holder
+          import RothschildStein.Statements.rs3_no_drift_sobolev
+          import comparators.Hormander.Solution
+          import comparators.RothschildStein.Solution
+          #print axioms Hormander.Interface.exists_smooth_aeRepresentative
+          #print axioms Hormander.memSobolev_neg_of_integrable
+          #print axioms Hormander.exists_contDiff_of_forall_memSobolev
+          #print axioms Hormander.subelliptic_estimate
+          #print axioms Hormander.forall_memSobolev_of_localized
+          #print axioms RothschildStein.HomogeneousGroup.driftFields_contDiff
+          #print axioms RothschildStein.HomogeneousGroup.horizontalFields_contDiff
+          #print axioms RothschildStein.exists_lift_approximation_drift
+          #print axioms RothschildStein.exists_lift_approximation_noDrift
+          #print axioms RothschildStein.rs2a_drift
+          #print axioms RothschildStein.rs2a_noDrift
+          #print axioms RothschildStein.rs2b_drift
+          #print axioms RothschildStein.rs2b_noDrift
+          #print axioms RothschildStein.rs3_drift_holder
+          #print axioms RothschildStein.rs3_drift_sobolev
+          #print axioms RothschildStein.rs3_no_drift_holder
+          #print axioms RothschildStein.rs3_no_drift_sobolev
+          #print axioms RothschildStein.exists_bch_lie_series
+          #print axioms RothschildStein.chow_rashevskii
+          #print axioms RothschildStein.exists_ball_box_compact_family
+          #print axioms RothschildStein.exists_ball_volume_doubling_compact_family
+          #print axioms RothschildStein.exists_distance_comparison_compact_family
+          #print axioms HormanderChallenge.hormander_hypoellipticity
+          #print axioms HormanderChallenge.memSobolev_neg_of_integrable
+          #print axioms HormanderChallenge.exists_contDiff_of_forall_memSobolev
+          #print axioms HormanderChallenge.subelliptic_estimate
+          #print axioms HormanderChallenge.forall_memSobolev_of_localized
+          #print axioms HormanderChallenge.bch_lie_series
+          #print axioms HormanderChallenge.chow_rashevskii
+          #print axioms HormanderChallenge.ball_box
+          #print axioms HormanderChallenge.ball_volume_doubling
+          #print axioms HormanderChallenge.distance_comparison
+          #print axioms HormanderChallenge.lifting_approximation
+          #print axioms HormanderChallenge.lifting_approximation_drift
+          #print axioms RothschildSteinChallenge.rothschildStein_sobolev
+          #print axioms RothschildSteinChallenge.rothschildStein_holder
+          #print axioms RothschildSteinChallenge.rothschildStein_sobolev_drift
+          #print axioms RothschildSteinChallenge.rothschildStein_holder_drift
+          #print axioms RothschildSteinChallenge.fundamental_solution
+          #print axioms RothschildSteinChallenge.fundamental_solution_drift
+          #print axioms RothschildSteinChallenge.global_estimates
+          #print axioms RothschildSteinChallenge.global_estimates_drift
+          #print axioms RothschildSteinChallenge.HomogeneousGroup.horizontalFields_contDiff
+          #print axioms RothschildSteinChallenge.HomogeneousGroup.driftFields_contDiff
+          #print axioms RothschildSteinChallenge.testMultiplierOn_spec
+          LEAN
+          lake env lean "$RUNNER_TEMP/Axioms.lean" | tee "$RUNNER_TEMP/axioms.txt"
+          # Lean may wrap long axiom lists over several lines; count on the flattened output.
+          flat=$(tr '\n' ' ' < "$RUNNER_TEMP/axioms.txt" | tr -s ' ')
+          test "$(grep -o "depends on axioms: \[propext, Classical.choice, Quot.sound\]" <<< "$flat" | wc -l)" -eq 45
+          test "$(grep -o "depends on axioms" <<< "$flat" | wc -l)" -eq 45

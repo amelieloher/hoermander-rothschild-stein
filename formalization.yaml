@@ -1,0 +1,327 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Hörmander's hypoellipticity theorem and the Rothschild–Stein theory"
+  description: >-
+    A Lean 4 / Mathlib formalization of the regularity theory of Hörmander
+    operators: second-order operators built from smooth vector fields
+    X_1, ..., X_q (and possibly a drift X_0) whose iterated commutators span
+    the tangent space at every point. It proves Hörmander's 1967 theorem that
+    such operators are hypoelliptic: every locally integrable weak solution of
+    X_0 u + sum X_i^2 u + c u = g with smooth data is smooth. It then develops
+    the Rothschild–Stein theory (Acta Math. 1976), following Bramanti and
+    Brandolini's "Hörmander Operators" (2023): lifting and approximation of
+    the fields by the generators of a homogeneous group; the homogeneous
+    fundamental solution and singular-integral estimates on homogeneous
+    groups; and the sharp interior estimates, by which a distributional
+    solution of sum X_i^2 T = f with f in W^{k,p}_X or C^{k,alpha}_X is a
+    function in W^{k+2,p}_X or C^{k+2,alpha}_X, for every k >= 0, and at
+    k = 0 with a drift. The formalization also proves the formal
+    Baker–Campbell–Hausdorff theorem, Chow–Rashevskii connectivity, and the
+    Nagel–Stein–Wainger theorems on control balls (ball-box, volume and
+    doubling, comparison of distances), uniformly over compact sets.
+  authors:
+    - "Scott Armstrong"
+    - "Amélie Loher"
+  responsible_maintainers:
+    - "Scott Armstrong"
+    - "Amélie Loher"
+  affiliations:
+    - "Scott Armstrong: CNRS and Laboratoire Jacques-Louis Lions, Sorbonne Université; Courant Institute School of Mathematics, Computing, and Data Science, New York University"
+    - "Amélie Loher: All Souls College, University of Oxford"
+  license: "Apache-2.0"
+  funding:
+    - "Scott Armstrong was supported by the European Research Council (ERC) under the European Union's Horizon Europe research and innovation programme, grant agreement No. 101200828."
+    - "Amélie Loher acknowledges support from the Fondation Sciences Mathématiques de Paris."
+
+classification:
+  arxiv: ["math.AP", "math.CA", "math.DG"]
+  msc2020: ["35H10", "35H20", "43A80", "53C17", "22E25"]
+
+sources:
+  - title: "Hypoelliptic second order differential equations"
+    authors:
+      - "Lars Hörmander"
+    type: "article"
+    location: "Acta Mathematica 119 (1967), 147-171"
+    relationship: "formalizes"
+    note: "Theorem 1.1 (hypoellipticity), proved by the subelliptic-estimate method of Kohn and Oleĭnik–Radkevič as presented in Bramanti–Brandolini, Chapter 5."
+    license: "all rights reserved"
+    author_endorsement: "n/a"
+  - title: "Hypoelliptic differential operators and nilpotent groups"
+    authors:
+      - "Linda Preiss Rothschild"
+      - "Elias M. Stein"
+    type: "article"
+    location: "Acta Mathematica 137 (1976), 247-320"
+    relationship: "formalizes"
+    note: "Formalized along the account of Bramanti–Brandolini, Chapters 1-3 and 6-11."
+    license: "all rights reserved"
+    author_endorsement: "not-contacted"
+  - title: "Hörmander Operators"
+    authors:
+      - "Marco Bramanti"
+      - "Luca Brandolini"
+    type: "book"
+    location: "World Scientific, 2023"
+    relationship: "formalizes"
+    note: "Primary source for the proofs: Chapters 1-3 and 5-11. Chapter 12 is not formalized."
+    license: "all rights reserved"
+    author_endorsement: "not-contacted"
+  - title: "Balls and metrics defined by vector fields I: Basic properties"
+    authors:
+      - "Alexander Nagel"
+      - "Elias M. Stein"
+      - "Stephen Wainger"
+    type: "article"
+    location: "Acta Mathematica 155 (1985), 103-147"
+    relationship: "formalizes"
+    note: "Theorems 1, 2 and 7, uniformly over compact families, along Bramanti–Brandolini Chapter 9."
+    license: "all rights reserved"
+    author_endorsement: "not-contacted"
+
+status:
+  scope: >-
+    Complete for Hörmander's hypoellipticity theorem (operators
+    X_0 + sum X_i^2 + c with smooth real coefficients on an open subset of
+    R^N) and for the Rothschild–Stein interior estimates of Bramanti–Brandolini
+    Theorems 11.1 (every k >= 0, Sobolev and Hölder, without drift) and 11.2
+    (k = 0, with a drift of weight 2), together with the lifting and
+    approximation theorem (Theorem 10.6), the homogeneous fundamental solution
+    (Theorem 11.5), global and local estimates on homogeneous groups, the
+    formal Baker–Campbell–Hausdorff theorem (Theorem 9.18), Chow–Rashevskii
+    connectivity, and the Nagel–Stein–Wainger ball-box, volume, doubling and
+    distance-comparison theorems. Not formalized: Chapter 12 of
+    Bramanti–Brandolini, and higher-order interior estimates (k >= 1) with a
+    drift for general fields, which Bramanti–Brandolini do not state in
+    Chapter 11.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+  main_results:
+    - declaration: "Hormander.Interface.exists_smooth_aeRepresentative"
+      file: "Hormander/Interface.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/Hormander/comparator.json"
+      literature_dependencies: []
+    - declaration: "RothschildStein.rs3_no_drift_sobolev"
+      file: "RothschildStein/Statements/rs3_no_drift_sobolev.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/RothschildStein/comparator.json"
+      literature_dependencies: []
+    - declaration: "RothschildStein.rs3_no_drift_holder"
+      file: "RothschildStein/Statements/rs3_no_drift_holder.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/RothschildStein/comparator.json"
+      literature_dependencies: []
+    - declaration: "RothschildStein.rs3_drift_sobolev"
+      file: "RothschildStein/Statements/rs3_drift_sobolev.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/RothschildStein/comparator.json"
+      literature_dependencies: []
+    - declaration: "RothschildStein.rs3_drift_holder"
+      file: "RothschildStein/Statements/rs3_drift_holder.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/RothschildStein/comparator.json"
+      literature_dependencies: []
+    - declaration: "RothschildStein.exists_lift_approximation_noDrift"
+      file: "RothschildStein/Statements/exists_lift_approximation_noDrift.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/Hormander/comparator.json"
+      literature_dependencies: []
+    - declaration: "RothschildStein.exists_lift_approximation_drift"
+      file: "RothschildStein/Statements/exists_lift_approximation_drift.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/Hormander/comparator.json"
+      literature_dependencies: []
+    - declaration: "RothschildStein.rs2a_noDrift"
+      file: "RothschildStein/Statements/rs2a_noDrift.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/RothschildStein/comparator.json"
+      literature_dependencies: []
+    - declaration: "RothschildStein.rs2a_drift"
+      file: "RothschildStein/Statements/rs2a_drift.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/RothschildStein/comparator.json"
+      literature_dependencies: []
+    - declaration: "RothschildStein.rs2b_noDrift"
+      file: "RothschildStein/Statements/rs2b_noDrift.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/RothschildStein/comparator.json"
+      literature_dependencies: []
+    - declaration: "RothschildStein.rs2b_drift"
+      file: "RothschildStein/Statements/rs2b_drift.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/RothschildStein/comparator.json"
+      literature_dependencies: []
+    - declaration: "RothschildStein.exists_bch_lie_series"
+      file: "RothschildStein/Statements/exists_bch_lie_series.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/Hormander/comparator.json"
+      literature_dependencies: []
+    - declaration: "RothschildStein.chow_rashevskii"
+      file: "RothschildStein/Statements/chow_rashevskii.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/Hormander/comparator.json"
+      literature_dependencies: []
+    - declaration: "RothschildStein.exists_ball_box_compact_family"
+      file: "RothschildStein/Statements/exists_ball_box_compact_family.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/Hormander/comparator.json"
+      literature_dependencies: []
+    - declaration: "RothschildStein.exists_ball_volume_doubling_compact_family"
+      file: "RothschildStein/Statements/exists_ball_volume_doubling_compact_family.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/Hormander/comparator.json"
+      literature_dependencies: []
+    - declaration: "RothschildStein.exists_distance_comparison_compact_family"
+      file: "RothschildStein/Statements/exists_distance_comparison_compact_family.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/Hormander/comparator.json"
+      literature_dependencies: []
+
+automation:
+  methods:
+    - method: "agent"
+      models:
+        - "gpt-6.1-sol"
+        - "gpt-6-luna"
+        - "claude-opus-5-5"
+        - "claude-sonnet-5-5"
+      framework: >-
+        Codex (GPT-6.1 Sol, GPT-6 Luna) and Claude Code (Claude Opus 5.5
+        coordinating, Claude Sonnet 5.5), under the authors' supervision.
+      tool_setup: >-
+        Lean 4 and Mathlib v4.35.0-rc2. Every public definition and theorem
+        statement was written first, compared with the sources by an
+        independent model review, and approved by the authors before its
+        proof was developed. Verification uses full builds from a clean
+        checkout, axiom checks, and Mathlib-only comparator challenges checked
+        with Lean's comparator and the independent kernel checkers bundled
+        with the toolchain.
+      cost:
+        wall_time: "about four days of development (October 2026) plus release preparation"
+        spend_usd: "not separately tracked (ChatGPT Pro and Claude Max subscriptions)"
+        hardware: "one 8-CPU / 30 GB RAM Linux machine"
+      prompting_notes: >-
+        The authors determined the scope and the statements, chose the proof
+        routes, and approved every public statement. Gaps in the printed
+        proofs were filled by arguments proposed by the models and checked by
+        separate model reviews before they were formalized.
+  spend_usd: "not separately tracked (ChatGPT Pro and Claude Max subscriptions)"
+  notes: >-
+    All Lean code was written by the listed models under the supervision of
+    the authors. Every proof is checked by the Lean kernel; the library
+    contains no sorry and no custom axiom. The comparator Challenge files
+    (comparators/Hormander/Challenge.lean and
+    comparators/RothschildStein/Challenge.lean) contain one intentional
+    theorem-body placeholder per theorem, proved by the corresponding
+    Solution files.
+
+fidelity:
+  divergences: >-
+    The drift case of the Rothschild–Stein estimates is formalized at k = 0,
+    the case stated by Bramanti–Brandolini (Theorem 11.2). The
+    Nagel–Stein–Wainger theorems are stated uniformly over a compact set K
+    under Hörmander's condition of a fixed step on a neighbourhood of K, with
+    control balls taken in the whole domain. Norms are valued in the extended
+    nonnegative reals. Where Bramanti–Brandolini omit steps, the omitted
+    arguments are supplied in the formalization.
+
+review:
+  status: "author-verified"
+  reviewers:
+    - "Scott Armstrong"
+    - "Amélie Loher"
+  notes: >-
+    Lean checks each proof against its formal statement. The authors reviewed
+    that the statements are the intended theorems. Each public statement was
+    compared with the sources by independent model reviews before its proof
+    was accepted, and the comparator declarations are checked mechanically.
+    This is not external peer review.
+
+alignment:
+  - source: "Hörmander (1967), Theorem 1.1; BB Chapter 5"
+    lean: "Hormander.Interface.exists_smooth_aeRepresentative"
+    note: "Operators X_0 + sum X_i^2 + c with smooth real coefficients on an open set; locally integrable weak solutions with smooth data agree almost everywhere with a smooth function."
+  - source: "BB Theorem 5.54"
+    lean: "Hormander.subelliptic_estimate"
+    note: "Subelliptic estimate with gain 2/4^s on Schwartz functions supported in a compact set, for compactly supported smooth coefficients, with the ordinary word length."
+  - source: "BB Theorem 5.64"
+    lean: "Hormander.forall_memSobolev_of_localized"
+    note: "Local regularity bootstrap: a localized tempered solution with Schwartz forcing lies in every Sobolev space."
+  - source: "BB Proposition 5.17"
+    lean: "Hormander.memSobolev_neg_of_integrable"
+    note: "An integrable function is a tempered distribution of Sobolev order -m for every m > N/2."
+  - source: "BB Proposition 5.16(iii)"
+    lean: "Hormander.exists_contDiff_of_forall_memSobolev"
+    note: "A tempered distribution in every Sobolev space is given by a smooth function."
+  - source: "Rothschild-Stein (1976); BB Theorem 11.1"
+    lean: "RothschildStein.rs3_no_drift_sobolev"
+    note: "Interior W^{k+2,p}_X estimate for every k >= 0 and 1 < p < infinity; distributional solutions are functions."
+  - source: "Rothschild-Stein (1976); BB Theorem 11.1"
+    lean: "RothschildStein.rs3_no_drift_holder"
+    note: "Interior C^{k+2,alpha}_X estimate for every k >= 0, Hölder spaces of the control distance."
+  - source: "Rothschild-Stein (1976); BB Theorem 11.2"
+    lean: "RothschildStein.rs3_drift_sobolev"
+    note: "With a drift of weight 2, the k = 0 interior W^{2,p}_X estimate."
+  - source: "Rothschild-Stein (1976); BB Theorem 11.2"
+    lean: "RothschildStein.rs3_drift_holder"
+    note: "With a drift of weight 2, the k = 0 interior C^{2,alpha}_X estimate."
+  - source: "BB Theorem 11.5 and Chapter 8"
+    lean: "RothschildStein.rs2a_noDrift"
+    note: "Homogeneous fundamental solution of degree 2 - Q on a homogeneous group: existence, uniqueness, smoothness, derivative bounds, cancellation and representation formulas."
+  - source: "BB Theorem 11.5 and Chapter 8"
+    lean: "RothschildStein.rs2a_drift"
+    note: "The same with the drift Y_0 + sum Y_i^2."
+  - source: "BB Chapters 6-8"
+    lean: "RothschildStein.rs2b_noDrift"
+    note: "Global and local L^p and Hölder estimates on homogeneous groups."
+  - source: "BB Chapters 6-8"
+    lean: "RothschildStein.rs2b_drift"
+    note: "The same with drift."
+  - source: "Rothschild-Stein (1976); BB Theorem 10.6"
+    lean: "RothschildStein.exists_lift_approximation_noDrift"
+    note: "Lifting to free fields and approximation by the generators of a homogeneous group, with remainder estimates."
+  - source: "Rothschild-Stein (1976); BB Theorem 10.6"
+    lean: "RothschildStein.exists_lift_approximation_drift"
+    note: "The same with a drift of weight 2."
+  - source: "BB Theorem 9.18 and Theorem 9.68"
+    lean: "RothschildStein.exists_bch_lie_series"
+    note: "Formal Baker-Campbell-Hausdorff series in the truncated free associative algebra over Q, with uniqueness."
+  - source: "Chow (1940), Rashevskii (1938); BB Theorem 1.45 and Proposition 1.28"
+    lean: "RothschildStein.chow_rashevskii"
+    note: "Connectivity by chains of integral arcs, finiteness of the control distance, constancy of annihilated C^1 functions."
+  - source: "Nagel-Stein-Wainger (1985), Theorem 7; BB Chapter 9"
+    lean: "RothschildStein.exists_ball_box_compact_family"
+    note: "Ball-box theorem uniformly over a compact set."
+  - source: "Nagel-Stein-Wainger (1985), Theorem 1; BB Theorem 9.1"
+    lean: "RothschildStein.exists_ball_volume_doubling_compact_family"
+    note: "Volume of control balls comparable to Lambda(x, r) and local doubling, uniformly over a compact set."
+  - source: "Nagel-Stein-Wainger (1985), Theorems 2-4; BB Theorem 9.6"
+    lean: "RothschildStein.exists_distance_comparison_compact_family"
+    note: "Comparison of the control distance with the bracket distance, uniformly over a compact set."
+
+acknowledgements: >-
+  Scott Armstrong was supported by the European Research Council (ERC) under
+  the European Union's Horizon Europe research and innovation programme
+  (grant agreement No. 101200828). Amélie Loher acknowledges support from the
+  Fondation Sciences Mathématiques de Paris. Built on Lean 4, Mathlib and
+  Lake, and checked with leanprover/comparator.

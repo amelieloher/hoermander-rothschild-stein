@@ -1,0 +1,25 @@
+{
+  "challenge_module": "comparators.Hormander.Challenge",
+  "solution_module": "comparators.Hormander.Solution",
+  "theorem_names": [
+    "HormanderChallenge.hormander_hypoellipticity",
+    "HormanderChallenge.memSobolev_neg_of_integrable",
+    "HormanderChallenge.exists_contDiff_of_forall_memSobolev",
+    "HormanderChallenge.subelliptic_estimate",
+    "HormanderChallenge.forall_memSobolev_of_localized",
+    "HormanderChallenge.bch_lie_series",
+    "HormanderChallenge.chow_rashevskii",
+    "HormanderChallenge.ball_box",
+    "HormanderChallenge.ball_volume_doubling",
+    "HormanderChallenge.distance_comparison",
+    "HormanderChallenge.lifting_approximation",
+    "HormanderChallenge.lifting_approximation_drift"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}

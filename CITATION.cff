@@ -1,0 +1,94 @@
+cff-version: 1.2.0
+message: "If you use this formalization, please cite it as below."
+title: "hoermander-rothschild-stein: a Lean 4 formalization of Hörmander's hypoellipticity theorem and the Rothschild–Stein theory"
+abstract: >-
+  A machine-checked Lean 4 / mathlib formalization of the regularity theory of
+  Hörmander operators: Hörmander's hypoellipticity theorem; the
+  Rothschild–Stein theory (lifting and approximation by homogeneous groups,
+  the homogeneous fundamental solution, singular-integral estimates on
+  homogeneous groups, and the interior Sobolev and Hölder estimates for sums
+  of squares of vector fields, with and without drift); the formal
+  Baker–Campbell–Hausdorff theorem; and Chow–Rashevskii connectivity and the
+  Nagel–Stein–Wainger ball-box, volume and doubling theorems.
+  The development contains no sorry and no custom axiom.
+type: software
+version: "1.0.0"
+authors:
+  - family-names: Armstrong
+    given-names: Scott
+    affiliation: "CNRS and Laboratoire Jacques-Louis Lions, Sorbonne Université; Courant Institute School of Mathematics, Computing, and Data Science, New York University"
+  - family-names: Loher
+    given-names: Amélie
+    affiliation: "All Souls College, University of Oxford"
+keywords:
+  - Lean
+  - Mathlib
+  - formal verification
+  - hypoellipticity
+  - Hörmander operators
+  - sub-Riemannian geometry
+  - partial differential equations
+license: Apache-2.0
+repository-code: "https://github.com/amelieloher/hoermander-rothschild-stein"
+references:
+  - type: article
+    title: "Hypoelliptic second order differential equations"
+    authors:
+      - family-names: Hörmander
+        given-names: Lars
+    journal: "Acta Mathematica"
+    volume: 119
+    start: 147
+    end: 171
+    year: 1967
+    doi: 10.1007/BF02392081
+  - type: article
+    title: "Hypoelliptic differential operators and nilpotent groups"
+    authors:
+      - family-names: Rothschild
+        given-names: Linda Preiss
+      - family-names: Stein
+        given-names: Elias M.
+    journal: "Acta Mathematica"
+    volume: 137
+    start: 247
+    end: 320
+    year: 1976
+    doi: 10.1007/BF02392419
+  - type: article
+    title: "Balls and metrics defined by vector fields I: Basic properties"
+    authors:
+      - family-names: Nagel
+        given-names: Alexander
+      - family-names: Stein
+        given-names: Elias M.
+      - family-names: Wainger
+        given-names: Stephen
+    journal: "Acta Mathematica"
+    volume: 155
+    start: 103
+    end: 147
+    year: 1985
+    doi: 10.1007/BF02392539
+  - type: book
+    title: "Hörmander Operators"
+    authors:
+      - family-names: Bramanti
+        given-names: Marco
+      - family-names: Brandolini
+        given-names: Luca
+    publisher:
+      name: "World Scientific"
+    year: 2023
+    doi: 10.1142/13006
+  - type: article
+    title: "Über Systeme von linearen partiellen Differentialgleichungen erster Ordnung"
+    authors:
+      - family-names: Chow
+        given-names: Wei-Liang
+    journal: "Mathematische Annalen"
+    volume: 117
+    start: 98
+    end: 105
+    year: 1940
+    doi: 10.1007/BF01450011

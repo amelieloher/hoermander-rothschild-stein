@@ -1,0 +1,24 @@
+{
+  "challenge_module": "comparators.RothschildStein.Challenge",
+  "solution_module": "comparators.RothschildStein.Solution",
+  "theorem_names": [
+    "RothschildSteinChallenge.rothschildStein_sobolev",
+    "RothschildSteinChallenge.rothschildStein_holder",
+    "RothschildSteinChallenge.rothschildStein_sobolev_drift",
+    "RothschildSteinChallenge.rothschildStein_holder_drift",
+    "RothschildSteinChallenge.fundamental_solution",
+    "RothschildSteinChallenge.fundamental_solution_drift",
+    "RothschildSteinChallenge.global_estimates",
+    "RothschildSteinChallenge.global_estimates_drift",
+    "RothschildSteinChallenge.HomogeneousGroup.horizontalFields_contDiff",
+    "RothschildSteinChallenge.HomogeneousGroup.driftFields_contDiff",
+    "RothschildSteinChallenge.testMultiplierOn_spec"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}
