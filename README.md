@@ -9,12 +9,19 @@ A **Lean 4 / Mathlib** formalization of the regularity theory of Hörmander oper
 L=\sum_{i=1}^{q}X_i^2+X_0+c,
 ```
 
-where $`X_0,X_1,\dots,X_q`$ are real smooth vector fields on an open set $`\Omega\subseteq\mathbb R^n`$ whose iterated commutators span $`\mathbb R^n`$ at every point. Hörmander's theorem allows a drift $`X_0`$ and a smooth zeroth-order coefficient $`c`$. In the Rothschild–Stein estimates $`c=0`$, and the drift is either absent or present with weight two. The main results are:
+where $`X_0,X_1,\dots,X_q`$ are real smooth vector fields on an open set $`\Omega\subseteq\mathbb R^n`$ whose iterated commutators span $`\mathbb R^n`$ at every point. Hörmander's theorem allows a drift $`X_0`$ and a smooth zeroth-order coefficient $`c`$. In the Rothschild–Stein estimates $`c=0`$, and the drift is either absent or present with weight two. On Carnot groups, the library also constructs the heat kernel of the sub-Laplacian and proves its two-sided Gaussian bounds. The main results are:
 
 - **Hörmander's hypoellipticity theorem.** A locally integrable weak solution of $`Lu=g`$ with smooth $`g`$ agrees almost everywhere with a smooth function. The Sobolev-space steps of the proof are also stated separately: the subelliptic estimate, local regularity, and the embeddings $`L^1\subseteq H^{-m}`$ and $`\bigcap_sH^s\subseteq C^\infty`$.
 - **The Rothschild–Stein estimates.** A distributional solution of $`\sum_iX_i^2T=f`$ with $`f`$ in $`W^{k,p}_X`$ or $`C^{k,\alpha}_X`$ is a function in $`W^{k+2,p}_{X,\mathrm{loc}}`$ or $`C^{k+2,\alpha}_{X,\mathrm{loc}}`$, for every $`k\ge0`$, with interior estimates. With a drift, the same holds for $`k=0`$.
 - **Homogeneous groups and lifting.** Hörmander fields lift to free fields in more variables, which are approximated by the generators of a free nilpotent homogeneous group. On homogeneous groups, the homogeneous fundamental solution has the kernel bounds and representation formulas used in the parametrix, and global and local $`L^p`$ and Hölder estimates hold.
 - **Geometry of Hörmander vector fields.** The formal Baker–Campbell–Hausdorff theorem, Chow–Rashevskii connectivity, and the Nagel–Stein–Wainger ball-box, volume, doubling and distance-comparison theorems, uniformly over compact sets and compact families of fields.
+- **Heat kernel and Gaussian bounds on Carnot groups.** The sub-Laplacian $`L=\sum_iX_i^2`$ of a Carnot group of homogeneous dimension $`Q`$ has a smooth heat kernel $`p(t,x,y)`$: it solves $`\partial_tp=L_xp`$, is symmetric, satisfies the semigroup law, has unit mass, tends to the Dirac mass as $`t\downarrow0`$, is left-invariant, scales with the dilations, and satisfies two-sided Gaussian bounds (Jerison–Sánchez-Calle 1986, Saloff-Coste 1992)
+
+  ```math
+  \frac{c}{t^{Q/2}}\exp\Bigl(-\frac{C\,d(x,y)^2}{t}\Bigr)\le p(t,x,y)\le\frac{C}{t^{Q/2}}\exp\Bigl(-\frac{c\,d(x,y)^2}{t}\Bigr)\qquad(t\gt0,\ x,y\in G),
+  ```
+
+  with $`d`$ the horizontal control distance and constants $`0\lt c\le C`$ depending only on the group and its horizontal fields. Along the way, the library proves the scale-invariant Poincaré inequality on control balls, and the parabolic Harnack inequality, Hölder continuity and elliptic Harnack inequality for divergence-form operators $`\sum_{i,j}X_i(a_{ij}X_j)`$ with measurable, symmetric, uniformly elliptic coefficients.
 
 The constants in the interior estimates depend only on the fields, the nested domains, the order and the exponents. The library contains no `sorry` and uses only the axioms `propext`, `Classical.choice` and `Quot.sound`.
 
@@ -49,18 +56,41 @@ The following lists the results covered from each source. The detailed formulati
 
   - The connectivity theorem, in the form of BB Theorem 1.45 and Proposition 1.28: connection by finite chains of integral arcs of the fields, finiteness of every weighted control distance, and constancy of $`C^1`$ functions annihilated by the fields.
 
+- **David Jerison, “The Poincaré inequality for vector fields satisfying Hörmander's condition”, Duke Mathematical Journal 53 (1986), 503–523** ([DOI](https://doi.org/10.1215/S0012-7094-86-05329-9)).
+
+  - Theorem 2.1, the Poincaré inequality on control balls with the same ball on both sides, for the horizontal fields of a Carnot group. Every exponent $`1\le p\lt\infty`$ is covered, as allowed in Section 6. The constant is uniform over all centres and radii, and balls are those of the $`\ell^2`$-control distance.
+  - The first step, a Poincaré inequality with an enlarged ball, is proved by translating horizontal paths in the group rather than by Jerison's lifting argument. The passage to the same ball follows his Whitney-chain argument of Section 5, with a corrected chain radius in Lemma 5.7(b).
+
+- **David S. Jerison and Antonio Sánchez-Calle, “Estimates for the heat kernel for a sum of squares of vector fields”, Indiana University Mathematics Journal 35 (1986), 835–854** ([DOI](https://doi.org/10.1512/iumj.1986.35.35043)).
+
+  - Theorem 1, the Gaussian upper bound for the heat kernel of a left-invariant sum of squares on a homogeneous group, without its derivative bounds, stated with the horizontal control distance in place of a homogeneous norm.
+  - The matching lower bound, the group analogue of the two-sided estimate (1) of Section 1. The paper proves that estimate on compact manifolds by chaining Sánchez-Calle's near-diagonal lower bound (Theorem 4); here the near-diagonal bound is obtained by a different on-diagonal argument and chained in the same way. The compact-manifold Theorems 2–4 themselves are not formalized.
+  - The proof does not follow the paper. It uses Davies's method and Moser iteration, as in Sturm and Saloff-Coste below.
+
+- **L. Saloff-Coste, “A note on Poincaré, Sobolev, and Harnack inequalities”, International Mathematics Research Notices 1992, no. 2, 27–38** ([DOI](https://doi.org/10.1155/S1073792892000047)).
+
+  - On Carnot groups: Theorem 3.1 in the direction from doubling and the Poincaré inequality to the parabolic Harnack inequality; the Hölder continuity of Theorem 4.1; and the two-sided heat-kernel bound of Theorem 4.2, without its time-derivative bounds. Saloff-Coste states these for operators with smooth coefficients; the formal Harnack and Hölder statements allow measurable symmetric coefficients in divergence form, as in Sturm's setting.
+  - The Sobolev inequality of Theorem 2.1 enters the proof as a local Sobolev–Poincaré inequality, together with the weighted Poincaré inequality of Section 3.
+
+- **Karl-Theodor Sturm, “Analysis on local Dirichlet spaces. II. Upper Gaussian estimates for the fundamental solutions of parabolic equations”, Osaka Journal of Mathematics 32 (1995), 275–312, and “Analysis on local Dirichlet spaces. III. The parabolic Harnack inequality”, Journal de Mathématiques Pures et Appliquées 75 (1996), 273–297.**
+
+  - Part II: the mean-value estimates of Theorem 2.1 and Lemma 2.2, and the Gaussian upper bound of Theorem 2.4 by Davies's method. The proof of Theorem 2.4 needs the radius condition $`r_1^2+r_2^2\le t_2-t_1`$, which is made explicit here.
+  - Part III: the parabolic Harnack inequality in the form of Properties II and II* and Theorem 3.5, the Hölder estimate of Proposition 3.1, and the passage from the parabolic to the elliptic Harnack inequality of Proposition 3.2. The lower Gaussian bound of Theorems 4.3 and 4.8 is proved by a different on-diagonal argument, followed by chaining.
+
 ## Sources
 
-The proofs follow BB. The following sources were consulted as cross-checks of particular steps; their full collections of results are outside the scope listed above.
+The proofs of the Hörmander and Rothschild–Stein results follow BB, and the heat-kernel results follow Jerison, Saloff-Coste and Sturm. The following sources were consulted as cross-checks of particular steps; their full collections of results are outside the scope listed above.
 
 - J. J. Kohn, *Hypoellipticity and loss of derivatives* (with an appendix by M. Derridj and D. S. Tartakoff), Annals of Mathematics **162** (2005), 943–986, **Sections 1–2** ([DOI](https://doi.org/10.4007/annals.2005.162.943)). The subelliptic-estimate route to Hörmander's theorem.
 - Bernard Helffer and Francis Nier, *Hypoelliptic Estimates and Spectral Theory for Fokker–Planck Operators and Witten Laplacians*, Lecture Notes in Mathematics 1862, Springer (2005), **Chapter 2** ([DOI](https://doi.org/10.1007/b104762)). Subelliptic estimates with a drift.
 - Yves Colin de Verdière, Luc Hillairet and Emmanuel Trélat, *Small-time asymptotics of hypoelliptic heat kernels near the diagonal, nilpotentization and related results* (2020), **Appendix B.1.1** ([arXiv:2004.06461](https://arxiv.org/abs/2004.06461)). The subelliptic estimate with drift and potential.
 - Fulvio Ricci, *Sub-Laplacians on nilpotent Lie groups*, lecture notes, academic year 2002–2003, **Appendix, Sections 6–8**. Local $`L^2`$ regularization and the Sobolev bootstrap.
 - Marco Bramanti, *On the proof of Hörmander's hypoellipticity theorem*, Le Matematiche **75** (2020), 3–26 ([DOI](https://doi.org/10.4418/2020.75.1.1)). A comparison of the proofs of Hörmander's theorem.
-- G. B. Folland, *Subelliptic estimates and function spaces on nilpotent Lie groups*, Arkiv för Matematik **13** (1975), 161–207 ([DOI](https://doi.org/10.1007/BF02386204)). Homogeneous groups and homogeneous fundamental solutions.
+- G. B. Folland, *Subelliptic estimates and function spaces on nilpotent Lie groups*, Arkiv för Matematik **13** (1975), 161–207 ([DOI](https://doi.org/10.1007/BF02386204)). Homogeneous groups and homogeneous fundamental solutions; Section 3 cross-checks the scaling of the heat kernel.
 - Marco Bramanti, Luca Brandolini and Marco Pedroni, *On the lifting and approximation theorem for nonsmooth vector fields*, Indiana University Mathematics Journal **59** (2010), 2093–2138 ([arXiv:1002.1331](https://arxiv.org/abs/1002.1331); [DOI](https://doi.org/10.1512/iumj.2010.59.4298)). The lifting and approximation theorem.
 - Michael Müger, *Notes on the theorem of Baker–Campbell–Hausdorff–Dynkin*, lecture notes, April 22, 2020 ([author's notes](https://www.math.ru.nl/~mueger/PDF/BCHD.pdf)). The formal Baker–Campbell–Hausdorff theorem over fields of characteristic zero.
+- A. A. Grigor'yan, *The heat equation on noncompact Riemannian manifolds*, Mathematics of the USSR-Sbornik **72** (1992), 47–77, **Section 4** ([DOI](https://doi.org/10.1070/SM1992v072n01ABEH001410)). The logarithmic energy estimate (4.3) of Lemma 4.1, a model for the logarithmic step of the Moser–Harnack argument.
+- Karl-Theodor Sturm, *Analysis on local Dirichlet spaces. I. Recurrence, conservativeness and $`L^p`$-Liouville properties*, Journal für die reine und angewandte Mathematik **456** (1994), 173–196 ([DOI](https://doi.org/10.1515/crll.1994.456.173)). Conservativeness of the heat semigroup; here conservation is proved instead from the Chapman–Kolmogorov identity and dilation covariance.
 
 Where BB omit steps or contain misprints, the omitted arguments and corrections are supplied in the formalization. The source relationships are recorded in [`formalization.yaml`](formalization.yaml).
 
@@ -100,7 +130,7 @@ where the sum includes the empty word ($`\|f\|_{L^p(V)}`$), and $`\|X_If\|_{L^p(
 
 each term taken as an infimum over intrinsic derivatives. Again all norms take values in $`[0,\infty]`$ (`ℝ≥0∞` in Lean), and $`C^{k,\alpha}_{X,\mathrm{loc}}(\Omega)`$ is defined as for Sobolev spaces.
 
-The definitions are in [`RothschildStein/Definitions/`](RothschildStein/Definitions/), one per file, and in [`Hormander/Interface/`](Hormander/Interface/) and [`Hormander/Defs/`](Hormander/Defs/):
+The definitions are in [`RothschildStein/Definitions/`](RothschildStein/Definitions/) and [`HeatKernel/Definitions/`](HeatKernel/Definitions/), one per file, and in [`Hormander/Interface/`](Hormander/Interface/) and [`Hormander/Defs/`](Hormander/Defs/):
 
 | Module | Lean definitions |
 | --- | --- |
@@ -114,6 +144,7 @@ The definitions are in [`RothschildStein/Definitions/`](RothschildStein/Definiti
 | Homogeneous groups | [`polynomialProduct`](RothschildStein/Definitions/polynomialProduct.lean), [`coordinateDilation`](RothschildStein/Definitions/coordinateDilation.lean), [`HomogeneousGroup`](RothschildStein/Definitions/HomogeneousGroup.lean), and in [`HomogeneousGroup/`](RothschildStein/Definitions/HomogeneousGroup/): `mul`, `inv`, `dilate`, `homogeneousDimension`, `canonicalField`, `horizontalFields`, `driftFields`, `IsHomogeneousGauge`, `HasHomogeneousDistribution`, `potential`, `HasPrincipalValue` |
 | Operators and fundamental solutions | [`fieldDerivative`](RothschildStein/Definitions/fieldDerivative.lean), [`wordDerivative`](RothschildStein/Definitions/wordDerivative.lean), [`sumSquares`](RothschildStein/Definitions/sumSquares.lean), [`sumSquaresTranspose`](RothschildStein/Definitions/sumSquaresTranspose.lean), [`sumSquaresWithDrift`](RothschildStein/Definitions/sumSquaresWithDrift.lean), [`sumSquaresWithDriftTranspose`](RothschildStein/Definitions/sumSquaresWithDriftTranspose.lean), [`euclideanPartial`](RothschildStein/Definitions/euclideanPartial.lean), [`SmoothDifferentialOperator`](RothschildStein/Definitions/SmoothDifferentialOperator.lean) (with `apply` and `IsHomogeneous`), [`isFundamentalDistribution`](RothschildStein/Definitions/isFundamentalDistribution.lean) |
 | Free nilpotent algebras and lifting | [`BoundedWord`](RothschildStein/Definitions/BoundedWord.lean), [`boundedWordList`](RothschildStein/Definitions/boundedWordList.lean), [`WordCoefficients`](RothschildStein/Definitions/WordCoefficients.lean), [`wordConvolution`](RothschildStein/Definitions/wordConvolution.lean), [`formalBracket`](RothschildStein/Definitions/formalBracket.lean), [`truncatedBracket`](RothschildStein/Definitions/truncatedBracket.lean), [`formalSpan`](RothschildStein/Definitions/formalSpan.lean), [`freeDimension`](RothschildStein/Definitions/freeDimension.lean), [`FormalRelation`](RothschildStein/Definitions/FormalRelation.lean), [`FreeAt`](RothschildStein/Definitions/FreeAt.lean), [`rsPartial`](RothschildStein/Definitions/rsPartial.lean), [`WeightedJet`](RothschildStein/Definitions/WeightedJet.lean), [`basePoint`](RothschildStein/Definitions/basePoint.lean), [`joinPoint`](RothschildStein/Definitions/joinPoint.lean), [`triangularLift`](RothschildStein/Definitions/triangularLift.lean), [`rsGauge`](RothschildStein/Definitions/rsGauge.lean), [`fiberVolume`](RothschildStein/Definitions/fiberVolume.lean) |
+| Heat equations on Carnot groups (namespace `HeatKernel`) | [`horizontalL2Distance`](HeatKernel/Definitions/horizontalL2Distance.lean), [`IsLocalWeakSolution`](HeatKernel/Definitions/IsLocalWeakSolution.lean) |
 
 ## Hörmander's theorem
 
@@ -252,6 +283,74 @@ d^*(x,y)\le d(x,y)\le C\,d^*(x,y).
 
 Lean: [`RothschildStein.exists_distance_comparison_compact_family`](RothschildStein/Statements/exists_distance_comparison_compact_family.lean), BB Theorem 9.6 and Remark 9.5, and NSW Theorems 2–4. The family includes the empty word, whose bracket is the zero field; it is given weight one and does not affect $`d^*`$.
 
+## Heat kernel and Harnack inequalities on Carnot groups
+
+Let $`G`$ be a homogeneous group on $`\mathbb R^N`$, as in [Homogeneous groups and lifting](#homogeneous-groups-and-lifting), whose first $`q\ge1`$ canonical fields $`X_1,\dots,X_q`$ have weight one and satisfy Hörmander's condition on $`\mathbb R^N`$. Then $`G`$ is a Carnot group with horizontal fields $`X_i`$; no condition on $`Q`$ is imposed. Write $`L=\sum_iX_i^2`$ for the sub-Laplacian, $`Xu=(X_1u,\dots,X_qu)`$ for the horizontal gradient and $`|Xu|`$ for its Euclidean norm. Distances are measured by the horizontal $`\ell^2`$-control distance (`horizontalL2Distance`)
+
+```math
+d(x,y)=\inf\Bigl\{\int_0^1|a(t)|\,dt:\ \gamma:[0,1]\to\mathbb R^N\text{ absolutely continuous},\ \gamma(0)=x,\ \gamma(1)=y,\ \gamma'(t)=\sum_ia_i(t)X_i(\gamma(t))\text{ a.e.}\Bigr\}\in[0,\infty],
+```
+
+over measurable controls $`a`$ with integrable Euclidean norm $`|a|`$. Here $`B(x,r)=\{y:d(x,y)\lt r\}`$. Unlike the weighted control distance above, $`d`$ is the length of the control in the $`\ell^2`$ norm. All constants below depend only on $`G`$ and $`q`$, and, where they occur, on $`p`$ and on $`0\lt\lambda\le\Lambda`$.
+
+**Heat kernel and Gaussian bounds.** There is a function $`p(t,x,y)`$, smooth on $`(0,\infty)\times\mathbb R^N\times\mathbb R^N`$, such that for all $`s,t,r\gt0`$ and $`x,y,g\in\mathbb R^N`$
+
+```math
+\partial_tp(t,x,y)=L_xp(t,x,y),\qquad p(t,x,y)=p(t,y,x),\qquad p(s+t,x,y)=\int p(s,x,z)\,p(t,z,y)\,dz,\qquad \int p(t,x,y)\,dy=1,
+```
+
+```math
+p(t,g\circ x,g\circ y)=p(t,x,y),\qquad p(r^2t,D_rx,D_ry)=r^{-Q}\,p(t,x,y),
+```
+
+and $`\int p(t,x,y)\varphi(y)\,dy\to\varphi(x)`$ as $`t\downarrow0`$ for every bounded continuous $`\varphi`$ and every $`x`$. Moreover there are constants $`0\lt c\le C`$ such that for all $`t\gt0`$ and $`x,y`$
+
+```math
+c\,t^{-Q/2}\exp\Bigl(-\frac{C\,d(x,y)^2}{t}\Bigr)\le p(t,x,y)\le C\,t^{-Q/2}\exp\Bigl(-\frac{c\,d(x,y)^2}{t}\Bigr).
+```
+
+Lean: [`HeatKernel.exists_heatKernel_gaussian`](HeatKernel/Statements/exists_heatKernel_gaussian.lean). The heat equation holds pointwise with classical derivatives, and the Chapman–Kolmogorov integrand is asserted to be integrable. Positivity of $`p`$ follows from the lower bound. In the Gaussian bounds $`d`$ enters through its real value; it is finite under Hörmander's condition. The statement is about the kernel only. It does not mention the heat semigroup, the representation $`e^{tL}f(x)=\int p(t,x,y)f(y)\,dy`$ used in the proof, uniqueness of $`p`$, or bounds on its derivatives. These are the bounds of Saloff-Coste, Theorem 4.2, on Carnot groups; the upper bound is Jerison–Sánchez-Calle, Theorem 1, and the lower bound the group analogue of their estimate (1) of Section 1.
+
+**Poincaré inequality.** For every real $`p\ge1`$ there is $`C\gt0`$ such that, for every ball $`B=B(x,r)`$ with $`r\gt0`$ and every $`u`$ of class $`C^1`$ on an open set containing the closure of $`B`$,
+
+```math
+\Bigl(⨍_B|u-u_B|^p\Bigr)^{1/p}\le C\,r\Bigl(⨍_B|Xu|^p\Bigr)^{1/p},\qquad u_B=⨍_Bu.
+```
+
+Lean: [`HeatKernel.horizontal_poincare`](HeatKernel/Statements/horizontal_poincare.lean), Jerison's Theorem 2.1 on Carnot groups. Averages are taken with respect to Lebesgue measure, and the closure is the Euclidean closure.
+
+**Weak solutions.** Fix $`0\lt\lambda\le\Lambda`$. A coefficient field $`a(t,x)=(a_{ij}(t,x))_{i,j\le q}`$ is admissible if its entries are Borel on $`\mathbb R\times\mathbb R^N`$ and, for almost every $`(t,x)`$, $`a(t,x)`$ is symmetric with $`\lambda|\xi|^2\le\xi^{\mathsf T}a(t,x)\xi\le\Lambda|\xi|^2`$ for all $`\xi\in\mathbb R^q`$. A local weak solution of $`\partial_tu=\sum_{i,j}X_i(a_{ij}X_ju)`$ on an open cylinder $`I\times U`$ (`IsLocalWeakSolution`) has the following properties. It is measurable on $`I\times U`$. It has a horizontal gradient $`g`$ that is, for almost every $`t`$, the weak gradient $`Xu(t,\cdot)`$ on $`U`$. For compact $`J\subseteq I`$ and $`K\subseteq U`$, $`u\in L^\infty(J;L^2(K))`$ and $`g\in L^2(J\times K)`$. Finally
+
+```math
+\iint\Bigl(-u\,\partial_t\varphi+\sum_{i,j}a_{ij}\,g_j\,X_i\varphi\Bigr)\,dx\,dt=0
+```
+
+for every smooth $`\varphi`$ with compact support in $`I\times U`$, with an integrable integrand. The fields $`X_i`$ are divergence-free, so this is the weak form of the equation.
+
+**Parabolic Harnack inequality.** There is $`H\ge1`$ such that, for every admissible $`a`$, every $`x`$, $`r\gt0`$ and $`s`$, and every nonnegative local weak solution $`u`$ on $`(s-4r^2,s)\times B(x,2r)`$,
+
+```math
+\operatorname*{ess\,sup}_{(s-3r^2,\,s-2r^2)\times B(x,r)}u\le H\operatorname*{ess\,inf}_{(s-r^2,\,s)\times B(x,r)}u.
+```
+
+Lean: [`HeatKernel.parabolic_harnack`](HeatKernel/Statements/parabolic_harnack.lean). The spatial domain of the solution is the interior of $`B(x,2r)`$, which is the ball itself, since $`d`$-balls are open. The essential extrema are taken in $`[0,\infty]`$.
+
+**Hölder continuity.** There are $`\alpha\in(0,1)`$ and $`C\gt0`$ such that, for every admissible $`a`$, every $`x_0`$, $`r\gt0`$ and $`t_0`$, every local weak solution $`u`$ on $`Q=(t_0-4r^2,t_0)\times B(x_0,2r)`$ agrees almost everywhere on $`Q'=(t_0-r^2,t_0)\times B(x_0,r)`$ with a function $`v`$ continuous on $`Q'`$. Whenever $`m\le u\le M`$ almost everywhere on $`Q`$,
+
+```math
+|v(t,x)-v(s,y)|\le C\Bigl(\frac{d(x,y)+|t-s|^{1/2}}{r}\Bigr)^{\alpha}(M-m)\qquad\text{for }(t,x),(s,y)\in Q'.
+```
+
+Lean: [`HeatKernel.parabolic_holder`](HeatKernel/Statements/parabolic_holder.lean). No sign condition is imposed on $`u`$, and continuity on $`Q'`$ holds even when $`u`$ is unbounded on $`Q`$.
+
+**Elliptic Harnack inequality.** There is $`H\ge1`$ such that, for every time-independent admissible $`a(x)`$, every $`x`$ and $`r\gt0`$, and every $`u\in W^{1,2}_{X,\mathrm{loc}}(B(x,2r))`$ with $`u\ge0`$ almost everywhere on $`B(x,2r)`$ and
+
+```math
+\int\sum_{i,j}a_{ij}\,X_ju\,X_i\varphi=0\qquad\text{for every }\varphi\in C_c^\infty(B(x,2r)),
+```
+
+one has $`\operatorname{ess\,sup}_{B(x,r)}u\le H\operatorname{ess\,inf}_{B(x,r)}u`$. Lean: [`HeatKernel.elliptic_harnack`](HeatKernel/Statements/elliptic_harnack.lean). Here $`W^{1,2}_{X,\mathrm{loc}}`$ is the space `memSobolevXLoc` of the Rothschild–Stein library, and $`X_ju`$ are weak derivatives.
+
 ## Proof route
 
 Hörmander's theorem follows Kohn's method in BB Chapter 5. The Fourier transform, the Sobolev scale $`H^s`$, Bessel potentials and mollifiers come first. Then comes a calculus of operators of order $`m`$ on Schwartz space, closed under commutators and transposes, with fractional Sobolev multipliers and Peetre's inequality. The basic subelliptic estimate is proved by induction over bracket words, including the drift, with gain $`2/4^s`$ (BB Section 5.5). The localized estimate (Section 5.6) and a finite bootstrap of mollified solutions (Section 5.7) put a localized distributional solution in every $`H^s`$. The theorem on $`\Omega`$ is assembled by cutting off the coefficients near each point, transporting the weak equation to `EuclideanSpace`, taking the local smooth representatives, and gluing them over a countable cover. Hörmander's original argument through flows and the Campbell–Hausdorff formula is not used.
@@ -259,6 +358,17 @@ Hörmander's theorem follows Kohn's method in BB Chapter 5. The Fourier transfor
 The Rothschild–Stein theory follows BB Chapters 1–3 and 6–11. The geometric part develops flows, weighted brackets and the control distance (Chapter 1), and the formal BCH theorem and the free nilpotent model (Sections 9.3 and 9.8). Suboptimal bases, the structure of balls, volumes and the equivalence of $`d`$ and $`d^*`$ follow (Sections 9.4–9.6), and then lifting, the map $`\Theta`$, its remainders and Jacobians, and the volumes of fibres (Chapter 10). The function spaces $`W^{k,p}_X`$ and $`C^{k,\alpha}_X`$ (Chapter 2) relate weak and intrinsic derivatives. On homogeneous groups (Chapter 3), the homogeneous fundamental solution is built in Chapter 6. Its smoothness uses Hörmander's theorem for distributional solutions, derived from the Chapter 5 library above by localization. Singular and fractional integrals on locally doubling metric spaces, maximal functions, Calderón–Zygmund decompositions and the Campanato characterization of Hölder continuity (Chapter 7) give the estimates on groups (Chapter 8).
 
 For general fields, BB Sections 11.2–11.4 develop operators of type $`\lambda`$ on the lifted space, left and right parametrices built from $`\Gamma\circ\Theta`$, representation formulas for first and second derivatives, and their continuity on $`L^p`$ and Hölder spaces. Sections 11.5–11.6 give the a priori estimates, the transfer from lifted to original variables through the fibre-volume estimates, and the smoothing of distributional solutions. When the lifted group has homogeneous dimension $`Q\le2`$, the proof first adds auxiliary variables and the operator $`\sum\partial_{t_j}^2`$, lifts $`T`$ to $`T\otimes1`$, and descends on bounded product cylinders. The higher estimates for $`k\ge1`$ without drift iterate the representation formulas on shrinking balls. Where BB omit steps, the formalization supplies the arguments.
+
+The heat-kernel results follow the route through doubling and Poincaré inequalities to Sobolev inequalities, Moser iteration and Harnack inequalities, with Davies's method for the Gaussian bounds.
+
+- *Geometry.* The $`\ell^2`$-control distance is compared with the control distance of the Rothschild–Stein library. It is left-invariant and homogeneous under dilations, induces the Euclidean topology, and has horizontal near-geodesics. Its balls have volume $`|B(x,r)|=v\,r^Q`$, so Lebesgue measure is doubling.
+- *Energy form.* The horizontal energy $`\mathcal E(u,v)=\sum_i\int X_iu\,X_iv`$ is a closed form on $`L^2`$, with chain rules, truncations, cutoffs and locality, and with measurable coefficients.
+- *Poincaré and Sobolev inequalities.* The Poincaré inequality is proved first with an enlarged ball, by translating horizontal paths in the group, then on the same ball by Jerison's Whitney-chain argument, and is extended to the energy domain. Doubling and Poincaré give a local Sobolev–Poincaré inequality, through a local Nash inequality, and a weighted Poincaré inequality, after Saloff-Coste.
+- *Moser iteration.* Caccioppoli inequalities and Moser iteration give mean-value estimates for positive and negative powers of solutions. A logarithmic estimate, after Grigor'yan, and the Bombieri–Giusti lemma then give the parabolic Harnack inequality in Sturm's form. The decay of oscillation gives Hölder continuity. Time-independent solutions are parabolic solutions, which gives the elliptic Harnack inequality.
+- *Semigroup and kernel.* The heat semigroup is built from the Lax–Milgram resolvent of the form by a bounded functional calculus, without the unbounded spectral theorem. Hörmander's theorem from the library is applied twice. First it makes point evaluation of $`e^{tL}f`$ bounded on $`L^2`$, which produces the kernel. Then it makes the kernel jointly smooth in $`(t,x,y)`$. Symmetry, the semigroup law, invariance and scaling come from the form, and conservation from the Chapman–Kolmogorov identity and scaling.
+- *Gaussian bounds.* The upper bound combines Davies's weighted $`L^2`$ estimate with the mean-value estimate at both endpoints, as in Sturm II. The lower bound starts from an on-diagonal bound obtained by mass concentration and the Cauchy–Schwarz inequality. The parabolic Harnack inequality extends it near the diagonal, and chaining along near-geodesics gives the off-diagonal bound.
+
+Where the sources omit steps or rely on references outside this list, the formalization supplies the arguments.
 
 ## Build and verify
 
@@ -279,12 +389,13 @@ echo 'import RothschildStein.Statements.rs3_no_drift_sobolev
 lake env lean /tmp/Axioms.lean
 ```
 
-Two comparator configurations restate the main theorems using only Mathlib, with every definition written out:
+Three comparator configurations restate the main theorems using only Mathlib, with every definition written out:
 
 | Configuration | Theorems |
 | --- | --- |
 | [`comparators/Hormander`](comparators/Hormander/) | Hörmander's theorem and its four companions, Baker–Campbell–Hausdorff, Chow–Rashevskii, the three Nagel–Stein–Wainger theorems, and lifting and approximation with and without drift (12 theorems) |
 | [`comparators/RothschildStein`](comparators/RothschildStein/) | The four Rothschild–Stein interior estimates, the homogeneous fundamental solution and the estimates on homogeneous groups with and without drift, and three supporting smoothness facts (11 theorems) |
+| [`comparators/HeatKernel`](comparators/HeatKernel/) | The heat kernel with Gaussian bounds, the Poincaré inequality, the parabolic Harnack inequality, Hölder continuity and the elliptic Harnack inequality on Carnot groups (5 theorems) |
 
 Each `Challenge.lean` states the definitions independently and leaves the main theorem bodies as intentional `sorry` placeholders. The matching `Solution.lean` has the same statements and proves each one from the library. Lean's [comparator](https://github.com/leanprover/comparator), configured by each `comparator.json`, checks that Challenge and Solution state the same theorems over the same definitions and that the Solution uses only the permitted axioms. It also replays the Solution through Lean's kernel and the independent kernel checkers NanoDa and con-ron. To run it as the [Palomar registry](https://submit.palomar-registry.org/) does, install [bubblewrap](https://github.com/containers/bubblewrap) (`bwrap`) and run:
 
@@ -294,11 +405,11 @@ scripts/verify-comparator.sh
 
 The script uses the `lake comparator` and the kernel checkers bundled with the pinned toolchain, so no checker is built separately. It judges every `comparators/*/comparator.json`, or the configurations given as arguments; set `SKIP_CACHE_GET=1` when the Mathlib build is already present. [`scripts/check-lean-sources.py`](scripts/check-lean-sources.py) checks the source requirements: every Lean file is a regular UTF-8 file, starts with the `module` header of Lean's module system, and has at most 10,000 lines.
 
-Continuous integration runs on every push to `main` and on every pull request. The [build workflow](.github/workflows/build.yml) runs the source check, rejects unfinished proofs and axiom declarations outside the Challenge files, and builds everything. It then prints the axioms of all 45 theorems: the 22 library theorems named above and the 23 comparator theorems. Each must depend on exactly `propext`, `Classical.choice` and `Quot.sound`. The [comparator workflow](.github/workflows/comparator.yml) installs bubblewrap and runs `scripts/verify-comparator.sh`.
+Continuous integration runs on every push to `main` and on every pull request. The [build workflow](.github/workflows/build.yml) runs the source check, rejects unfinished proofs and axiom declarations in the Hörmander, Rothschild–Stein and heat-kernel libraries and in the Solution files, and builds everything. It then prints the axioms of 55 theorems: the 27 library theorems named above and the 28 theorems of the three comparator configurations. Each must depend on exactly `propext`, `Classical.choice` and `Quot.sound`. The [comparator workflow](.github/workflows/comparator.yml) installs bubblewrap and runs `scripts/verify-comparator.sh`.
 
 ## Library map
 
-Each main statement has its own short file in [`Hormander/Statements/`](Hormander/Statements/) or [`RothschildStein/Statements/`](RothschildStein/Statements/) (Hörmander's theorem is in [`Hormander/Interface.lean`](Hormander/Interface.lean)). Its proof is assembled in the corresponding `Provider/` directory. The library has about 3,600 Lean files and 289,000 lines, all in Lean's module system and none longer than 1,500 lines.
+Each main statement has its own short file in [`Hormander/Statements/`](Hormander/Statements/), [`RothschildStein/Statements/`](RothschildStein/Statements/) or [`HeatKernel/Statements/`](HeatKernel/Statements/) (Hörmander's theorem is in [`Hormander/Interface.lean`](Hormander/Interface.lean)). Its proof is assembled in the corresponding `Provider/` directory. The library has about 4,800 Lean files and 369,000 lines, all in Lean's module system and none longer than 1,500 lines.
 
 | Directory | Content |
 | --- | --- |
@@ -324,7 +435,17 @@ Each main statement has its own short file in [`Hormander/Statements/`](Hormande
 | [`RothschildStein/P2`](RothschildStein/P2/) | Interior a priori estimates, transfer from lifted variables, higher-order iteration and smoothing of distributional solutions |
 | [`RothschildStein/Distribution`](RothschildStein/Distribution/) | Distributions on open sets: localization, and Hörmander's theorem for distributional solutions |
 | [`RothschildStein/Geometry`](RothschildStein/Geometry/) | Chow–Rashevskii and the Nagel–Stein–Wainger theorems over compact families |
-| [`comparators`](comparators/) | The two Mathlib-only comparator configurations |
+| [`HeatKernel/Definitions`](HeatKernel/Definitions/), [`HeatKernel/Statements`](HeatKernel/Statements/), [`HeatKernel/Provider`](HeatKernel/Provider/) | The two heat-kernel definitions, the five statements, and their proofs from the library |
+| [`HeatKernel/Geometry`](HeatKernel/Geometry/) | The $`\ell^2`$-control distance on a Carnot group: horizontal curves, near-geodesics, ball volumes, cutoffs and smooth approximation |
+| [`HeatKernel/Form`](HeatKernel/Form/) | The closed horizontal energy form: chain rules, truncations, local energy domains and measurable coefficients |
+| [`HeatKernel/Poincare`](HeatKernel/Poincare/) | The Poincaré inequality with an enlarged ball, Whitney chains and the same-ball inequality |
+| [`HeatKernel/Sobolev`](HeatKernel/Sobolev/) | Ball averaging, local Nash and Sobolev–Poincaré inequalities, and weighted Poincaré inequalities |
+| [`HeatKernel/Semigroup`](HeatKernel/Semigroup/) | The Lax–Milgram resolvent, the functional calculus and the heat semigroup on $`L^2`$ |
+| [`HeatKernel/Moser`](HeatKernel/Moser/) | Weak solutions, Caccioppoli inequalities, Moser iteration, logarithmic estimates, the Bombieri–Giusti lemma, Harnack inequalities and Hölder continuity |
+| [`HeatKernel/Kernel`](HeatKernel/Kernel/) | The heat kernel from Hörmander's theorem: smoothness, symmetry, the semigroup law, invariance, scaling and conservation |
+| [`HeatKernel/Gaussian`](HeatKernel/Gaussian/) | Davies's weighted estimates, the Gaussian upper bound, and the on-diagonal, near-diagonal and chained lower bounds |
+| [`HeatKernel/Bridge`](HeatKernel/Bridge/) | Passage between energy-domain curves, weak solutions on cylinders and the Sobolev spaces of the Rothschild–Stein library |
+| [`comparators`](comparators/) | The three Mathlib-only comparator configurations |
 
 ## How this was built
 
