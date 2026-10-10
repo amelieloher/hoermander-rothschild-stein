@@ -9,7 +9,11 @@ abstract: >-
   homogeneous groups, and the interior Sobolev and Hölder estimates for sums
   of squares of vector fields, with and without drift); the formal
   Baker–Campbell–Hausdorff theorem; and Chow–Rashevskii connectivity and the
-  Nagel–Stein–Wainger ball-box, volume and doubling theorems.
+  Nagel–Stein–Wainger ball-box, volume and doubling theorems. On Carnot
+  groups it constructs the heat kernel of the sub-Laplacian with two-sided
+  Gaussian bounds, and proves the scale-invariant Poincaré inequality and the
+  parabolic and elliptic Harnack inequalities and Hölder continuity for
+  divergence-form operators with measurable, symmetric, uniformly elliptic coefficients.
   The development contains no sorry and no custom axiom.
 type: software
 version: "1.0.0"
@@ -27,6 +31,10 @@ keywords:
   - hypoellipticity
   - Hörmander operators
   - sub-Riemannian geometry
+  - Carnot groups
+  - heat kernel
+  - Gaussian bounds
+  - Harnack inequality
   - partial differential equations
 license: Apache-2.0
 repository-code: "https://github.com/amelieloher/hoermander-rothschild-stein"
@@ -92,3 +100,61 @@ references:
     end: 105
     year: 1940
     doi: 10.1007/BF01450011
+  - type: article
+    title: "The Poincaré inequality for vector fields satisfying Hörmander's condition"
+    authors:
+      - family-names: Jerison
+        given-names: David
+    journal: "Duke Mathematical Journal"
+    volume: 53
+    issue: 2
+    start: 503
+    end: 523
+    year: 1986
+    doi: 10.1215/S0012-7094-86-05329-9
+  - type: article
+    title: "Estimates for the heat kernel for a sum of squares of vector fields"
+    authors:
+      - family-names: Jerison
+        given-names: David S.
+      - family-names: Sánchez-Calle
+        given-names: Antonio
+    journal: "Indiana University Mathematics Journal"
+    volume: 35
+    issue: 4
+    start: 835
+    end: 854
+    year: 1986
+    doi: 10.1512/iumj.1986.35.35043
+  - type: article
+    title: "A note on Poincaré, Sobolev, and Harnack inequalities"
+    authors:
+      - family-names: Saloff-Coste
+        given-names: L.
+    journal: "International Mathematics Research Notices"
+    issue: 2
+    start: 27
+    end: 38
+    year: 1992
+    doi: 10.1155/S1073792892000047
+  - type: article
+    title: "Analysis on local Dirichlet spaces. II. Upper Gaussian estimates for the fundamental solutions of parabolic equations"
+    authors:
+      - family-names: Sturm
+        given-names: Karl-Theodor
+    journal: "Osaka Journal of Mathematics"
+    volume: 32
+    issue: 2
+    start: 275
+    end: 312
+    year: 1995
+  - type: article
+    title: "Analysis on local Dirichlet spaces. III. The parabolic Harnack inequality"
+    authors:
+      - family-names: Sturm
+        given-names: Karl-Theodor
+    journal: "Journal de Mathématiques Pures et Appliquées"
+    volume: 75
+    start: 273
+    end: 297
+    year: 1996

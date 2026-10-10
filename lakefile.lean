@@ -26,6 +26,12 @@ lean_lib «RothschildStein» where
   globs := #[.andSubmodules `RothschildStein]
   leanOptions := projectLeanOptions
 
+/-- Heat kernel, Gaussian bounds, Poincaré and Harnack inequalities for sub-Laplacians on Carnot groups. -/
+@[default_target]
+lean_lib «HeatKernel» where
+  globs := #[.andSubmodules `HeatKernel]
+  leanOptions := projectLeanOptions
+
 
 /-- Comparator configuration `comparators/Hormander`: Mathlib-only statements, one intentional
 `sorry` per theorem. -/
@@ -51,4 +57,17 @@ lean_lib «RothschildSteinChallenge» where
 @[default_target]
 lean_lib «RothschildSteinSolution» where
   roots := #[`comparators.RothschildStein.Solution]
+  leanOptions := projectLeanOptions
+
+/-- Comparator configuration `comparators/HeatKernel`: Mathlib-only statements, one intentional
+`sorry` per theorem. -/
+@[default_target]
+lean_lib «HeatKernelChallenge» where
+  roots := #[`comparators.HeatKernel.Challenge]
+  leanOptions := projectLeanOptions
+
+/-- The `comparators/HeatKernel` statements proved from the library. -/
+@[default_target]
+lean_lib «HeatKernelSolution» where
+  roots := #[`comparators.HeatKernel.Solution]
   leanOptions := projectLeanOptions

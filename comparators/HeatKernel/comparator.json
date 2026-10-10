@@ -1,0 +1,18 @@
+{
+  "challenge_module": "comparators.HeatKernel.Challenge",
+  "solution_module": "comparators.HeatKernel.Solution",
+  "theorem_names": [
+    "HeatKernelChallenge.exists_heatKernel_gaussian",
+    "HeatKernelChallenge.horizontal_poincare",
+    "HeatKernelChallenge.parabolic_harnack",
+    "HeatKernelChallenge.parabolic_holder",
+    "HeatKernelChallenge.elliptic_harnack"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}

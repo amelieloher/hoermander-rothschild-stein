@@ -21,6 +21,16 @@ project:
     Baker–Campbell–Hausdorff theorem, Chow–Rashevskii connectivity, and the
     Nagel–Stein–Wainger theorems on control balls (ball-box, volume and
     doubling, comparison of distances), uniformly over compact sets.
+    On Carnot groups, given as homogeneous groups whose weight-one
+    canonical fields satisfy Hörmander's condition, it constructs the heat
+    kernel of the sub-Laplacian sum X_i^2 and proves that it is smooth,
+    symmetric, conservative, left-invariant and dilation covariant, satisfies
+    the semigroup law, and obeys two-sided Gaussian bounds in the horizontal
+    control distance. Along the way it proves the scale-invariant Poincaré
+    inequality on control balls, and the parabolic Harnack inequality, the
+    Hölder continuity of weak solutions and the elliptic Harnack inequality
+    for divergence-form operators sum X_i(a_ij X_j) with measurable,
+    symmetric, uniformly elliptic coefficients.
   authors:
     - "Scott Armstrong"
     - "Amélie Loher"
@@ -37,7 +47,7 @@ project:
 
 classification:
   arxiv: ["math.AP", "math.CA", "math.DG"]
-  msc2020: ["35H10", "35H20", "43A80", "53C17", "22E25"]
+  msc2020: ["35H10", "35H20", "43A80", "53C17", "22E25", "35K08", "35B65", "35R03"]
 
 sources:
   - title: "Hypoelliptic second order differential equations"
@@ -80,6 +90,52 @@ sources:
     note: "Theorems 1, 2 and 7, uniformly over compact families, along Bramanti–Brandolini Chapter 9."
     license: "all rights reserved"
     author_endorsement: "not-contacted"
+  - title: "The Poincaré inequality for vector fields satisfying Hörmander's condition"
+    authors:
+      - "David Jerison"
+    type: "article"
+    location: "Duke Mathematical Journal 53 (1986), 503-523"
+    relationship: "formalizes"
+    note: "Theorem 2.1 (same ball, every exponent 1 <= p < infinity) for the horizontal fields of a Carnot group, with constants uniform over all balls of the horizontal l^2-control distance."
+    license: "all rights reserved"
+    author_endorsement: "not-contacted"
+  - title: "Estimates for the heat kernel for a sum of squares of vector fields"
+    authors:
+      - "David S. Jerison"
+      - "Antonio Sánchez-Calle"
+    type: "article"
+    location: "Indiana University Mathematics Journal 35 (1986), 835-854"
+    relationship: "formalizes"
+    note: "Theorem 1, the Gaussian upper bound for the heat kernel of a left-invariant sum of squares on a homogeneous group, without the derivative bounds, and the matching lower bound, the group analogue of the two-sided estimate (1) of Section 1; proved by Davies's method, Moser iteration and chaining instead of the paper's argument."
+    license: "all rights reserved"
+    author_endorsement: "not-contacted"
+  - title: "A note on Poincaré, Sobolev, and Harnack inequalities"
+    authors:
+      - "L. Saloff-Coste"
+    type: "article"
+    location: "International Mathematics Research Notices 1992, no. 2, 27-38"
+    relationship: "formalizes"
+    note: "On Carnot groups: Theorem 3.1 (doubling and Poincaré imply the parabolic Harnack inequality), Theorem 4.1 (Hölder continuity) and Theorem 4.2 (two-sided heat-kernel bounds), for measurable divergence-form coefficients."
+    license: "all rights reserved"
+    author_endorsement: "not-contacted"
+  - title: "Analysis on local Dirichlet spaces. II. Upper Gaussian estimates for the fundamental solutions of parabolic equations"
+    authors:
+      - "Karl-Theodor Sturm"
+    type: "article"
+    location: "Osaka Journal of Mathematics 32 (1995), 275-312"
+    relationship: "formalizes"
+    note: "Mean-value estimates (Theorem 2.1, Lemma 2.2) and the Gaussian upper bound by Davies's method (Theorem 2.4), on Carnot groups; the radius condition missing from the proof of Theorem 2.4 is made explicit."
+    license: "all rights reserved"
+    author_endorsement: "not-contacted"
+  - title: "Analysis on local Dirichlet spaces. III. The parabolic Harnack inequality"
+    authors:
+      - "Karl-Theodor Sturm"
+    type: "article"
+    location: "Journal de Mathématiques Pures et Appliquées 75 (1996), 273-297"
+    relationship: "formalizes"
+    note: "Parabolic Harnack inequality (Properties II and II*, Theorem 3.5), Hölder continuity (Proposition 3.1) and elliptic Harnack inequality (Proposition 3.2), on Carnot groups with measurable coefficients; the Gaussian lower bound is proved by a different on-diagonal argument followed by chaining."
+    license: "all rights reserved"
+    author_endorsement: "not-contacted"
 
 status:
   scope: >-
@@ -95,7 +151,14 @@ status:
     distance-comparison theorems. Not formalized: Chapter 12 of
     Bramanti–Brandolini, and higher-order interior estimates (k >= 1) with a
     drift for general fields, which Bramanti–Brandolini do not state in
-    Chapter 11.
+    Chapter 11. On Carnot groups, complete for the heat kernel of the
+    sub-Laplacian with two-sided Gaussian bounds, the same-ball Poincaré
+    inequality for every exponent 1 <= p < infinity, and the parabolic
+    Harnack inequality, Hölder continuity and elliptic Harnack inequality
+    for symmetric measurable uniformly elliptic coefficients along the
+    horizontal fields. Not formalized: heat kernels for general Hörmander
+    fields, non-symmetric operators or local domains, and derivative bounds
+    for the heat kernel.
   sorry_count: 0
   sorry_in_definitions: 0
   axioms: ["propext", "Classical.choice", "Quot.sound"]
@@ -196,6 +259,36 @@ status:
       axioms: ["propext", "Classical.choice", "Quot.sound"]
       comparator_config: "comparators/Hormander/comparator.json"
       literature_dependencies: []
+    - declaration: "HeatKernel.exists_heatKernel_gaussian"
+      file: "HeatKernel/Statements/exists_heatKernel_gaussian.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/HeatKernel/comparator.json"
+      literature_dependencies: []
+    - declaration: "HeatKernel.horizontal_poincare"
+      file: "HeatKernel/Statements/horizontal_poincare.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/HeatKernel/comparator.json"
+      literature_dependencies: []
+    - declaration: "HeatKernel.parabolic_harnack"
+      file: "HeatKernel/Statements/parabolic_harnack.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/HeatKernel/comparator.json"
+      literature_dependencies: []
+    - declaration: "HeatKernel.parabolic_holder"
+      file: "HeatKernel/Statements/parabolic_holder.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/HeatKernel/comparator.json"
+      literature_dependencies: []
+    - declaration: "HeatKernel.elliptic_harnack"
+      file: "HeatKernel/Statements/elliptic_harnack.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      comparator_config: "comparators/HeatKernel/comparator.json"
+      literature_dependencies: []
 
 automation:
   methods:
@@ -230,8 +323,9 @@ automation:
     All Lean code was written by the listed models under the supervision of
     the authors. Every proof is checked by the Lean kernel; the library
     contains no sorry and no custom axiom. The comparator Challenge files
-    (comparators/Hormander/Challenge.lean and
-    comparators/RothschildStein/Challenge.lean) contain one intentional
+    (comparators/Hormander/Challenge.lean,
+    comparators/RothschildStein/Challenge.lean and
+    comparators/HeatKernel/Challenge.lean) contain one intentional
     theorem-body placeholder per theorem, proved by the corresponding
     Solution files.
 
@@ -243,7 +337,12 @@ fidelity:
     under Hörmander's condition of a fixed step on a neighbourhood of K, with
     control balls taken in the whole domain. Norms are valued in the extended
     nonnegative reals. Where Bramanti–Brandolini omit steps, the omitted
-    arguments are supplied in the formalization.
+    arguments are supplied in the formalization. The heat-kernel results are
+    stated on Carnot groups rather than for general Hörmander fields or
+    Dirichlet spaces, with balls of the horizontal l^2-control distance; the
+    statement on the heat kernel concerns the kernel only, not the heat
+    semigroup or uniqueness of the kernel, and essential extrema are valued
+    in the extended nonnegative reals.
 
 review:
   status: "author-verified"
@@ -318,6 +417,21 @@ alignment:
   - source: "Nagel-Stein-Wainger (1985), Theorems 2-4; BB Theorem 9.6"
     lean: "RothschildStein.exists_distance_comparison_compact_family"
     note: "Comparison of the control distance with the bracket distance, uniformly over a compact set."
+  - source: "Saloff-Coste (1992), Theorem 4.2; Jerison-Sánchez-Calle (1986), Theorem 1 (upper bound); Sturm II and III"
+    lean: "HeatKernel.exists_heatKernel_gaussian"
+    note: "Heat kernel of the sub-Laplacian of a Carnot group: smooth on (0, infinity) x G x G, heat equation, symmetry, Chapman-Kolmogorov, unit mass, delta initial condition, left invariance, parabolic scaling, and two-sided Gaussian bounds in the horizontal l^2-control distance."
+  - source: "Jerison (1986), Theorem 2.1"
+    lean: "HeatKernel.horizontal_poincare"
+    note: "Same-ball Poincaré inequality on balls of the horizontal l^2-control distance, every 1 <= p < infinity, for functions C^1 near the closed ball."
+  - source: "Saloff-Coste (1992), Theorem 3.1; Sturm III, Theorem 3.5"
+    lean: "HeatKernel.parabolic_harnack"
+    note: "Parabolic Harnack inequality for nonnegative local weak solutions of d_t u = sum X_i(a_ij X_j u) with measurable symmetric uniformly elliptic coefficients."
+  - source: "Saloff-Coste (1992), Theorem 4.1; Sturm III, Proposition 3.1"
+    lean: "HeatKernel.parabolic_holder"
+    note: "Every local weak solution on (t0 - 4r^2, t0) x B(x0, 2r) agrees a.e. with a function continuous on (t0 - r^2, t0) x B(x0, r); when m <= u <= M a.e. on the outer cylinder, that function is Hölder continuous for the parabolic distance, with constant C (M - m) r^(-alpha)."
+  - source: "Sturm III, Proposition 3.2"
+    lean: "HeatKernel.elliptic_harnack"
+    note: "Elliptic Harnack inequality for nonnegative W^{1,2}_{X,loc} weak solutions of sum X_i(a_ij X_j u) = 0 with measurable symmetric uniformly elliptic coefficients."
 
 acknowledgements: >-
   Scott Armstrong was supported by the European Research Council (ERC) under
