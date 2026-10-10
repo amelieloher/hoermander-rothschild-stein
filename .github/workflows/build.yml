@@ -34,7 +34,7 @@ jobs:
         run: python3 scripts/check-lean-sources.py
       - name: Check for unfinished proofs outside the Challenges
         run: |
-          if grep -rnwE 'sorry|admit|axiom' --include='*.lean' Hormander RothschildStein Hormander.lean RothschildStein.lean comparators/*/Solution.lean \
+          if grep -rnwE 'sorry|admit|axiom' --include='*.lean' Hormander RothschildStein HeatKernel Hormander.lean RothschildStein.lean HeatKernel.lean comparators/*/Solution.lean \
               | grep -vE '^[^:]+:[0-9]+:\s*(--|/-|.*-/\s*$)'; then
             echo "unexpected sorry/admit/axiom" >&2; exit 1
           fi
@@ -66,8 +66,14 @@ jobs:
           import RothschildStein.Statements.rs3_drift_sobolev
           import RothschildStein.Statements.rs3_no_drift_holder
           import RothschildStein.Statements.rs3_no_drift_sobolev
+          import HeatKernel.Statements.exists_heatKernel_gaussian
+          import HeatKernel.Statements.horizontal_poincare
+          import HeatKernel.Statements.parabolic_harnack
+          import HeatKernel.Statements.parabolic_holder
+          import HeatKernel.Statements.elliptic_harnack
           import comparators.Hormander.Solution
           import comparators.RothschildStein.Solution
+          import comparators.HeatKernel.Solution
           #print axioms Hormander.Interface.exists_smooth_aeRepresentative
           #print axioms Hormander.memSobolev_neg_of_integrable
           #print axioms Hormander.exists_contDiff_of_forall_memSobolev
@@ -90,6 +96,11 @@ jobs:
           #print axioms RothschildStein.exists_ball_box_compact_family
           #print axioms RothschildStein.exists_ball_volume_doubling_compact_family
           #print axioms RothschildStein.exists_distance_comparison_compact_family
+          #print axioms HeatKernel.exists_heatKernel_gaussian
+          #print axioms HeatKernel.horizontal_poincare
+          #print axioms HeatKernel.parabolic_harnack
+          #print axioms HeatKernel.parabolic_holder
+          #print axioms HeatKernel.elliptic_harnack
           #print axioms HormanderChallenge.hormander_hypoellipticity
           #print axioms HormanderChallenge.memSobolev_neg_of_integrable
           #print axioms HormanderChallenge.exists_contDiff_of_forall_memSobolev
@@ -113,9 +124,14 @@ jobs:
           #print axioms RothschildSteinChallenge.HomogeneousGroup.horizontalFields_contDiff
           #print axioms RothschildSteinChallenge.HomogeneousGroup.driftFields_contDiff
           #print axioms RothschildSteinChallenge.testMultiplierOn_spec
+          #print axioms HeatKernelChallenge.exists_heatKernel_gaussian
+          #print axioms HeatKernelChallenge.horizontal_poincare
+          #print axioms HeatKernelChallenge.parabolic_harnack
+          #print axioms HeatKernelChallenge.parabolic_holder
+          #print axioms HeatKernelChallenge.elliptic_harnack
           LEAN
           lake env lean "$RUNNER_TEMP/Axioms.lean" | tee "$RUNNER_TEMP/axioms.txt"
           # Lean may wrap long axiom lists over several lines; count on the flattened output.
           flat=$(tr '\n' ' ' < "$RUNNER_TEMP/axioms.txt" | tr -s ' ')
-          test "$(grep -o "depends on axioms: \[propext, Classical.choice, Quot.sound\]" <<< "$flat" | wc -l)" -eq 45
-          test "$(grep -o "depends on axioms" <<< "$flat" | wc -l)" -eq 45
+          test "$(grep -o "depends on axioms: \[propext, Classical.choice, Quot.sound\]" <<< "$flat" | wc -l)" -eq 55
+          test "$(grep -o "depends on axioms" <<< "$flat" | wc -l)" -eq 55
